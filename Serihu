@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一文字ずつ表示</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            border: 2px solid #333;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+            margin: 0 auto 20px;
+            position: relative;
+            background-color: #fff;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        .arrow {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="content">
+        <span id="text"></span>
+        <div class="arrow">↓</div>
+    </div>
+
+    <script>
+        const messages = [
+            "これは最初の文章です。",
+            "次の文章がこちらです。",
+            "さらに別の文章が続きます。",
+            "最後の文章です。"
+        ];
+
+        let currentIndex = 0;
+        let charIndex = 0;
+        const textSpan = document.getElementById('text');
+        const contentDiv = document.getElementById('content');
+
+        function displayNextCharacter() {
+            if (charIndex < messages[currentIndex].length) {
+                textSpan.textContent += messages[currentIndex][charIndex];
+                charIndex++;
+                setTimeout(displayNextCharacter, 100); // 文字を表示する間隔（ミリ秒）
+            }
+        }
+
+        function displayNextMessage() {
+            if (currentIndex < messages.length - 1) {
+                currentIndex++;
+                charIndex = 0;
+                textSpan.textContent = '';
+                displayNextCharacter();
+            } else {
+                window.location.href = "指定のページのURL"; // 移動先のURLを指定
+            }
+        }
+
+        contentDiv.addEventListener('click', () => {
+            if (charIndex >= messages[currentIndex].length) {
+                displayNextMessage();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', displayNextCharacter);
+    </script>
+</body>
+</html>
